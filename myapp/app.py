@@ -73,6 +73,6 @@ print(child_dose(3,4))
     
      
                    
-
-app.run(debug=True)
+def run_app():
+    app.run(debug=True)
 
