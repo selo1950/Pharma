@@ -60,9 +60,7 @@ def child_dose(child_weight, dose_clean):
     single_dose = int(child_weight)* int(dose_clean)
     return single_dose
 
-def create_app():
-    return app
-
+app.run(debug=True)
 
 
 
