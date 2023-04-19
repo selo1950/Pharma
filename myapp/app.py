@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request,redirect, url_for, Blueprint
-from .forms import Indication, SelectMedicine
+from forms import Indication, SelectMedicine
 from flask_wtf import FlaskForm
-from .samolijecenje import medicine_clean
+from samolijecenje import medicine_clean
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'Aguero16'
@@ -59,7 +59,9 @@ def information(name,age,ind,child_weight):
 def child_dose(child_weight, dose_clean):
     single_dose = int(child_weight)* int(dose_clean)
     return single_dose
-    
+
+def create_app():
+    return app
 
 
 

@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request
 from flask_wtf import FlaskForm
 from wtforms import StringField, RadioField, TextAreaField, SelectField, SubmitField, IntegerField,BooleanField
-from .samolijecenje import medicine_clean
+from samolijecenje import medicine_clean
 from wtforms.validators import DataRequired
 
 indikacije = medicine_clean['Indikacija']
