@@ -15,7 +15,7 @@ def homepage():
         age = indicat.age.data
         sex = indicat.sex.data
         child_weight = indicat.weight.data
-        return redirect (url_for('choose_medicine', ind=ind, age=age, child_weight = child_weight))
+        return redirect (url_for('main.choose_medicine', ind=ind, age=age, child_weight = child_weight))
     return render_template('homepage.html', indication = Indication())
 
             
@@ -33,7 +33,7 @@ def choose_medicine(ind, age, child_weight):
     if select_medicine.validate_on_submit():
          med = select_medicine.select.data
          print(select_medicine.select.data)
-         return redirect (url_for('information', name = med, age = age, ind = ind, child_weight = child_weight))
+         return redirect (url_for('main.information', name = med, age = age, ind = ind, child_weight = child_weight))
 
     return render_template('choose_medicine.html', select_medicine = select_medicine, ind = ind)
  
