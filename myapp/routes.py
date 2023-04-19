@@ -1,13 +1,13 @@
 from flask import Flask, render_template, request,redirect, url_for, Blueprint
-from forms import Indication, SelectMedicine
+from .forms import Indication, SelectMedicine
 from flask_wtf import FlaskForm
-from samolijecenje import medicine_clean
+from .samolijecenje import medicine_clean
 
-app = Flask(__name__)
-app.config['SECRET_KEY'] = 'Aguero16'
+main = Blueprint('main', __name__)
 
 
-@app.route('/', methods = ['GET', 'POST'])
+
+@main.route('/', methods = ['GET', 'POST'])
 def homepage():
     indicat = Indication()
     if indicat.validate_on_submit():
@@ -19,7 +19,7 @@ def homepage():
     return render_template('homepage.html', indication = Indication())
 
             
-@app.route('/choose_medicine/<ind>/<age>/<child_weight>', methods = ['GET', 'POST'])
+@main.route('/choose_medicine/<ind>/<age>/<child_weight>', methods = ['GET', 'POST'])
 def choose_medicine(ind, age, child_weight):
     medicines = []
     select_medicine = SelectMedicine()
@@ -38,7 +38,7 @@ def choose_medicine(ind, age, child_weight):
     return render_template('choose_medicine.html', select_medicine = select_medicine, ind = ind)
  
        
-@app.route('/information/<name>/<age>/<ind>/<child_weight>')
+@main.route('/information/<name>/<age>/<ind>/<child_weight>')
 def information(name,age,ind,child_weight):
      for x in range(len(medicine_clean['Lijek'])):    
         if name in medicine_clean['Lijek'][str(x)]: 
@@ -60,7 +60,8 @@ def child_dose(child_weight, dose_clean):
     single_dose = int(child_weight)* int(dose_clean)
     return single_dose
 
-app.run(debug=True)
+
+
 
 
 
