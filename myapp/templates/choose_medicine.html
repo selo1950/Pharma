@@ -1,0 +1,10 @@
+{%extends 'base.html' %}
+
+{%block content %} 
+<form method='post'>
+    {{select_medicine.hidden_tag()}}
+    <p>{{select_medicine.select.label}}{{select_medicine.select()}}
+    </p>
+    <p>{{select_medicine.submit.label}}{{select_medicine.submit()}}</p>
+</form>
+{%endblock %}

@@ -1,0 +1,18 @@
+{% extends 'base.html'%}
+
+{%block content%}
+<form action ='/' method='post'>
+    {{indication.hidden_tag()}}
+
+    <p>{{indication.indikacija.label}}{{indication.indikacija()}}</p>
+    <p>{{indication.age.label}}{{indication.age()}}</p>
+    <p>{{indication.sex.label}}{{indication.sex()}}</p>
+    <p>Ako se radi o osobi mlađoj od 12 godina ispuniti:</p>
+    <p>{{indication.weight.label}}{{indication.weight()}}</p>
+
+    {{indication.submit_ind()}}
+
+
+
+</form>
+{%endblock%}
