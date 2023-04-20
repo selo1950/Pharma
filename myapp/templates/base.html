@@ -2,7 +2,13 @@
 <html>
     <title>Pocket Pharmacist</title>
     <body>
+        {% if not request.url_rule.endpoint == 'main.homepage'%}
+        <p><a href = {{url_for('main.homepage')}}> Home</a></p>
+        {%endif %}
+
         <h1>Pocket Pharmacist</h1>
+        
+
         {% block content%}
         {%endblock%}
     </body>

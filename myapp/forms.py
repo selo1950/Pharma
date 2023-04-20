@@ -1,8 +1,8 @@
 from flask import Flask, render_template, request
 from flask_wtf import FlaskForm
-from wtforms import StringField, RadioField, TextAreaField, SelectField, SubmitField, IntegerField,BooleanField
+from wtforms import StringField, RadioField, TextAreaField, SelectField, SubmitField, IntegerField,BooleanField, validators
 from .samolijecenje import medicine_clean
-from wtforms.validators import DataRequired
+from wtforms.validators import DataRequired, Optional
 
 indikacije = medicine_clean['Indikacija']
 indikacije_clean = set()
@@ -24,10 +24,14 @@ class Indication(FlaskForm):
     indikacija = SelectField('Odaberite vašu indikaciju: ', validate_choice=True, choices = choices_list, validators = [DataRequired()])
     age = IntegerField('Koliko imate godina?', validators=[DataRequired()])
     sex = RadioField('Spol:',  choices = [('M', 'Muško'), ('F','Žensko')], validators=[DataRequired()])
-    weight = IntegerField('Težina:')
+    weight = IntegerField('Težina:', validators = [Optional()])
     #pregnancy = RadioField('Jeste li trudni?', choices=['Da', 'Ne'], validators=[DataRequired()])
 
     submit_ind = SubmitField('Pregledaj')
+
+
+
+
 
 class SelectMedicine(FlaskForm):
     select = RadioField('Odaberite željeni lijek:', validators = [DataRequired()])

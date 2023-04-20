@@ -15,7 +15,12 @@ def homepage():
         age = indicat.age.data
         sex = indicat.sex.data
         child_weight = indicat.weight.data
-        return redirect (url_for('main.choose_medicine', ind=ind, age=age, child_weight = child_weight))
+
+        if child_weight:
+            return redirect (url_for('main.choose_medicine', ind=ind, age=age, child_weight = child_weight))
+        else:
+            return redirect (url_for('main.choose_medicine', ind=ind, age=age, child_weight = 'zero'))
+        
     return render_template('homepage.html', indication = Indication())
 
             
@@ -23,10 +28,13 @@ def homepage():
 def choose_medicine(ind, age, child_weight):
     medicines = []
     select_medicine = SelectMedicine()
-    for x in range(len(medicine_clean['Lijek'])):    
-            if ind in medicine_clean['Indikacija'][str(x)]:
-                name = medicine_clean['Lijek'][str(x)]
-                medicines.append((name,name))
+    for x in range(len(medicine_clean['Lijek'])):
+            if int(age) < 12 and medicine_clean['Doza-djeca'][str(x)] == 'X':
+                continue
+            else:
+                if ind in medicine_clean['Indikacija'][str(x)]:
+                    name = medicine_clean['Lijek'][str(x)]
+                    medicines.append((name,name))
     select_medicine.select.choices = medicines
 
 
@@ -42,23 +50,29 @@ def choose_medicine(ind, age, child_weight):
 def information(name,age,ind,child_weight):
      for x in range(len(medicine_clean['Lijek'])):    
         if name in medicine_clean['Lijek'][str(x)]: 
-                #if pregnancy == 'DA' and medicine_clean['Trudnoca'][str(x)] == 'Ne':
-                    #print(f'Lijek {name} se ne preporučuje trudnicama.')
-                #else:
+
             if int(age) < 12:
                 dose = medicine_clean['Doza-djeca'][str(x)]
                 dose_clean = [int(y) for y in dose.split() if y.isdigit()]
+                max_dose = medicine_clean['Maksimalna doza-djeca'][str(x)]
+                max_dose_clean = [int(y) for y in max_dose.split() if y.isdigit()]
+                
+
                 if 'mg/kg' in dose: 
-                    doza = f'{child_dose(child_weight, dose_clean[0])} mg'     
+                    doza = f'{child_dose(child_weight, dose_clean[0],max_dose_clean[0] )[0]} mg'
+                    frequency = child_dose(child_weight, dose_clean[0],max_dose_clean[0])[1]
                 else:
                     doza = medicine_clean['Doza-djeca'][str(x)]
+
             else:
                 doza = medicine_clean['Doza-odrasli'][str(x)]
-            return render_template('get_advice.html', name = name, doza = doza, ind = ind)
+                frequency = medicine_clean['Ucestalost'][str(x)]
+            return render_template('get_advice.html', name = name, doza = doza, ind = ind, frequency = frequency)
 
-def child_dose(child_weight, dose_clean):
+def child_dose(child_weight, dose_clean, daily_dose):
     single_dose = int(child_weight)* int(dose_clean)
-    return single_dose
+    frequency = round(int(daily_dose)*int(child_weight)/int(single_dose))
+    return single_dose, frequency
 
 
 
