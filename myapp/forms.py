@@ -19,13 +19,14 @@ for clean in indikacije_clean:
 #print(choices_list)
 
 def validate_weight(form,field):
+"""Custom validator that checks if age entered in form is above 12 and requires input in weight field if it is not"""
+
     weight_entered = field.data
     age_entered = form.age.data
 
     if int(age_entered) < 12 and int(weight_entered) == 0:  
         raise ValidationError('Molimo unesite težine za dijete mlađe od 12 godina!')
     
-    return('Molimo unesite težinu za dijete mlađe od 12 godina!')
     
 
 class Indication(FlaskForm):
