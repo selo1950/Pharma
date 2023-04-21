@@ -19,7 +19,7 @@ for clean in indikacije_clean:
 #print(choices_list)
 
 def validate_weight(form,field):
-"""Custom validator that checks if age entered in form is above 12 and requires input in weight field if it is not"""
+    """Custom validator that checks if age entered in form is above 12 and requires input in weight field if it is not"""
 
     weight_entered = field.data
     age_entered = form.age.data
