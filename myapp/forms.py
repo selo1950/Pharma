@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request
 from flask_wtf import FlaskForm
 from wtforms import StringField, RadioField, TextAreaField, SelectField, SubmitField, IntegerField,BooleanField, validators
-from .samolijecenje import medicine_clean
+from .excel_to_json import medicine_clean
 from wtforms.validators import DataRequired, Optional, ValidationError
 
 indikacije = medicine_clean['Indikacija']
@@ -9,7 +9,7 @@ indikacije_clean = set()
 for ind in indikacije.values():
     i = ind.split(',')
     for x in i:
-        indikacije_clean.add(x.title())
+        indikacije_clean.add(x.title().strip())
 
 choices_list=[]
 for clean in indikacije_clean:

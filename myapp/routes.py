@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request,redirect, url_for, Blueprint
 from .forms import Indication, SelectMedicine
 from flask_wtf import FlaskForm
-from .samolijecenje import medicine_clean
+from .excel_to_json import medicine_clean
 
 main = Blueprint('main', __name__)
 
@@ -29,6 +29,9 @@ def choose_medicine(ind, age, child_weight):
     medicines = []
     select_medicine = SelectMedicine()
     for x in range(len(medicine_clean['Lijek'])):
+        if int(age) < medicine_clean['Min.dob'][str(x)]:
+            continue
+        else:
             if int(age) < 12 and medicine_clean['Doza-djeca'][str(x)] == 'X':
                 continue
             else:
@@ -52,6 +55,7 @@ def information(name,age,ind,child_weight):
         if name in medicine_clean['Lijek'][str(x)]: 
 
             if int(age) < 12:
+                descript = medicine_clean['Opis-djeca'][str(x)]
                 dose = medicine_clean['Doza-djeca'][str(x)]
                 dose_clean = [int(y) for y in dose.split() if y.isdigit()]
                 max_dose = medicine_clean['Maksimalna doza-djeca'][str(x)]
@@ -67,7 +71,8 @@ def information(name,age,ind,child_weight):
             else:
                 doza = medicine_clean['Doza-odrasli'][str(x)]
                 frequency = medicine_clean['Ucestalost'][str(x)]
-            return render_template('get_advice.html', name = name, doza = doza, ind = ind, frequency = frequency)
+                descript = medicine_clean['Opis-odrasli'][str(x)]
+            return render_template('information.html', name = name, doza = doza, ind = ind, frequency = frequency, descript = descript)
 
 def child_dose(child_weight, dose_clean, daily_dose):
     single_dose = int(child_weight)* int(dose_clean)
