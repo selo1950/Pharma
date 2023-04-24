@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request,redirect, url_for, Blueprint
 from .forms import Indication, SelectMedicine
 from flask_wtf import FlaskForm
-from .excel_to_json import medicine_clean
+from .samolijecenje import medicine_clean
 
 main = Blueprint('main', __name__)
 
